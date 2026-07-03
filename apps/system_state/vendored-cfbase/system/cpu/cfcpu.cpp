@@ -1,0 +1,71 @@
+/**
+ * @file    cfcpu.cpp
+ * @brief   Implementation of the basic CPU information query interface.
+ *
+ * Implements getCPUInfo() with lazy initialization and caching via
+ * CPUHostInfoIniter. Dispatches to the platform-specific backend
+ * (Windows or Linux) at compile time.
+ *
+ * @author  Charliechen114514
+ * @date    2026-02-21
+ * @version 0.1
+ * @since   0.1
+ * @ingroup system_cpu
+ */
+
+#include "system/cpu/cfcpu.h"
+#include "aex/helpers/once_init.hpp"
+#include "aex/macro/system_judge.h"
+#include "private/cpu_host.h"
+
+#ifdef CFDESKTOP_OS_WINDOWS
+#    include "private/win_impl/cpu_info.h"
+#elif defined(CFDESKTOP_OS_LINUX)
+#    include "private/linux_impl/cpu_info.h"
+#endif
+
+namespace {
+class CPUHostInfoIniter : public aex::CallOnceInit<cf::CPUInfoHost> {
+  public:
+    cf::CPUInfoErrorType error() const { return error_code; }
+
+  protected:
+    bool init_resources() override {
+        // will be filled by query_cpu_info
+        auto src = query_cpu_basic_info(resource);
+        bool isOk = src.has_value();
+        if (!isOk) {
+            error_code = src.error();
+        }
+        return isOk;
+    }
+    bool force_do_reinit() override { return init_resources(); }
+
+  private:
+    cf::CPUInfoErrorType error_code{cf::CPUInfoErrorType::CPU_QUERY_NOERROR};
+};
+
+static CPUHostInfoIniter cpu_initer;
+
+} // namespace
+
+namespace cf {
+aex::expected<CPUInfoView, CPUInfoErrorType> getCPUInfo(bool force_refresh) {
+    if (force_refresh) {
+        cpu_initer.force_reinit();
+    }
+
+    auto& result = cpu_initer.get_resources();
+    if (cpu_initer.error() != cf::CPUInfoErrorType::CPU_QUERY_NOERROR) {
+        return aex::unexpected(cpu_initer.error());
+    }
+
+    // Convert CPUInfoHost to CPUInfoView
+    CPUInfoView view;
+    view.model = result.model;
+    view.manufacturer = result.manufest;
+    view.arch = result.arch;
+    return view;
+}
+
+} // namespace cf

@@ -1,4 +1,4 @@
-# mini-apps: standalone desktop apps. Each entry is an independent executable
+# CFDeskit: standalone desktop apps. Each entry is an independent executable
 # that CFDesktop (or any launcher) launches via QProcess — they are not linked
 # into any desktop shell, so a crash or hang cannot take down the shell.
 

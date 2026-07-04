@@ -1,6 +1,6 @@
-# mini-apps
+# CFDeskit
 
-Standalone desktop apps for the CFDesktop ecosystem, built with **Qt6 + QuarkWidgets**.
+Standalone desktop mini-apps for the CFDesktop ecosystem, built with **Qt6 + QuarkWidgets**.
 Each app is an independent executable launched by CFDesktop (or any launcher) via
 `QProcess` — never linked into the desktop shell, so an app crash or hang cannot
 take down the shell.
@@ -22,9 +22,8 @@ cmake -B build -S .
 cmake --build build -j
 ```
 
-QuarkWidgets and aex are pulled as git submodules (`v0.1.0`). The build tree
-mirrors the install layout: `build/apps/<id>/{exe, app.json}` +
-`build/apps/libquarkwidgets.so`.
+QuarkWidgets and aex are pulled as git submodules. The build tree mirrors the
+install layout: `build/apps/<id>/{exe, app.json}` + `build/apps/libquarkwidgets.so`.
 
 ## Install (deployment)
 
@@ -55,3 +54,7 @@ has **zero runtime dependency on any external `libcfbase.so`** and evolves
 independently from the main repo's cfbase. See
 [`apps/system_state/README.md`](apps/system_state/README.md) for provenance and
 sync policy.
+
+## License
+
+MIT.

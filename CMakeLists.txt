@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(mini_apps
+project(cfdeskit
     VERSION 0.1.0
-    DESCRIPTION "CFDesktop mini-apps: standalone desktop apps built with Qt6 + QuarkWidgets"
+    DESCRIPTION "CFDeskit: standalone desktop apps built with Qt6 + QuarkWidgets"
     LANGUAGES CXX C
 )
 

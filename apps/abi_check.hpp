@@ -1,8 +1,8 @@
 /**
  * @file abi_check.hpp
- * @brief QuarkWidgets ABI runtime self-check for mini-apps.
+ * @brief QuarkWidgets ABI runtime self-check for CFDeskit.
  *
- * Call @ref mini_apps::check_quarkwidgets_abi at the very start of main(),
+ * Call @ref cfdeskit::check_quarkwidgets_abi at the very start of main(),
  * before any QuarkWidgets symbol is touched. If the loaded libquarkwidgets.so
  * was swapped at deploy time for one built against a different ABI version,
  * this fails fast with a clear qFatal message instead of risking ABI UB.
@@ -19,7 +19,7 @@
 
 #include "quarkwidgets_version.h"  // QUARKWIDGETS_ABI_VERSION + runtime fn
 
-namespace mini_apps {
+namespace cfdeskit {
 
 /**
  * @brief Verify the loaded libquarkwidgets.so matches the compile-time ABI.
@@ -42,4 +42,4 @@ inline void check_quarkwidgets_abi() {
     }
 }
 
-}  // namespace mini_apps
+}  // namespace cfdeskit

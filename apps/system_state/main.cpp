@@ -18,7 +18,7 @@
 
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
-    mini_apps::check_quarkwidgets_abi();
+    cfdeskit::check_quarkwidgets_abi();
     QCoreApplication::setApplicationName(QStringLiteral("CFDesktop System State"));
 
     cf::desktop::desktop_component::SystemStatePanel panel;

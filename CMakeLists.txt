@@ -52,3 +52,19 @@ setup_third_party(
 # Apps (each is an independent executable)
 # ============================================================
 add_subdirectory(apps)
+
+# ============================================================
+# Tests (GoogleTest, fetched via FetchContent when CFDESKIT_BUILD_TESTS=ON)
+# ============================================================
+option(CFDESKIT_BUILD_TESTS "Build CFDeskit tests" ON)
+if(CFDESKIT_BUILD_TESTS)
+    enable_testing()
+    include(FetchContent)
+    FetchContent_Declare(googletest
+        GIT_REPOSITORY https://github.com/google/googletest.git
+        GIT_TAG        v1.14.0)
+    set(gtest_force_shared_rtc ON CACHE BOOL "" FORCE)
+    FetchContent_MakeAvailable(googletest)
+    include(GoogleTest)
+    add_subdirectory(test)
+endif()
